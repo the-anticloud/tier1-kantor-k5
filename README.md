@@ -2,7 +2,7 @@
 
 ![license](https://img.shields.io/badge/license-Apache--2.0-blue) ![licence](https://img.shields.io/badge/enterprise-dual--licence-informational) ![audit](https://img.shields.io/badge/audit-SHA3--256-orange) ![collection](https://img.shields.io/badge/collection-Anticloud%20FZ%20LLE-lightgrey)
 
-> **Status:** Production-ready | **Version:** 0.2.0 | **Author:** Lois-Kleinner Alpasan
+> K5 is a theoretically strongest cryptographic hash against quantum computing. It uses a Poseidon permutation over the Goldilocks prime field (p = 2⁶⁴ − 2³² + 1) as its core, with optional memory-hard pre-processing (Balloon hash) for ASIC/GPU resistance.
 
 | | |
 |---|---|
@@ -13,7 +13,7 @@
 
 ## What this project is
 
-**Status:** Production-ready | **Version:** 0.2.0 | **Author:** Lois-Kleinner Alpasan
+K5 is a theoretically strongest cryptographic hash against quantum computing. It uses a Poseidon permutation over the Goldilocks prime field (p = 2⁶⁴ − 2³² + 1) as its core, with optional memory-hard pre-processing (Balloon hash) for ASIC/GPU resistance.
 
 **Scope honesty:** no model decoding path ships in this project. It is a deterministic/offline component with AIOSS-style audit wiring. PAX may call it as a tool; no inference is claimed here.
 
@@ -41,14 +41,16 @@ Detected stack: docs-only
 
 **NOT MEASURED.** No results file in this project carries both a value and run provenance (commit or date), so no benchmark number is claimed here. This is deliberate: Anticloud FZ LLE does not publish unmeasured scores.
 
-### Recorded metric status
+### Metric ledger status
+
+Rebuilt from this project's own metric ledger. Documented-but-unverified figures are deliberately dropped; nothing below is inferred.
 
 ```csv
-metric,measured,documented,status
-TRL,NOT-MEASURED,7/9 stale,measured wins
-tok/s,NOT-MEASURED,97.3 stale,corrected
-NIST,,varies,per-suite JSON
-license,Apache-2.0 + Enterprise dual,mixed,normalized
+metric,status,note
+TRL,NOT-MEASURED,no verified run recorded
+tok/s,NOT-MEASURED,no verified run recorded
+NIST,NOT-MEASURED,no verified run recorded
+license,MEASURED(Apache-2.0 + Enterprise dual),reported by project metric ledger
 ```
 
 ## Millennium problem proposals
