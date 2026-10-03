@@ -1,85 +1,113 @@
 # Kleinner-Kantor 5 (K5) — Post-Quantum Cryptographic Hash
 
-![license](https://img.shields.io/badge/license-Apache--2.0-blue) ![status](https://img.shields.io/badge/status-production--ready-green) ![audit](https://img.shields.io/badge/audit-SHA3--256-orange) ![version](https://img.shields.io/badge/version-0.2.0-lightgrey)
+![license](https://img.shields.io/badge/license-Apache--2.0-blue) ![licence](https://img.shields.io/badge/enterprise-dual--licence-informational) ![audit](https://img.shields.io/badge/audit-SHA3--256-orange) ![collection](https://img.shields.io/badge/collection-Anticloud%20FZ%20LLE-lightgrey)
 
-> The theoretically strongest cryptographic hash against quantum computing — Poseidon permutation over the Goldilocks prime field, with optional memory-hard pre-processing. Every archive in the 862-project Anticloud corpus carries a K5 sidecar.
+> **Status:** Production-ready | **Version:** 0.2.0 | **Author:** Lois-Kleinner Alpasan
 
-**Vendor:** Anticloud FZ LLE · **Author:** Lois-Kleinner Alpasan, 23 · **Model companion:** PAX L5 Narrow L2 General 27B
+| | |
+|---|---|
+| Collection | TIER 1 ANTICLOUD CORE |
+| Vendor | Anticloud FZ LLE |
+| Licence | Apache-2.0 + Enterprise commercial dual (Anticommons 1.0) |
+| Payload | documentation, evidence and licence material |
 
-## Measured vs documented (reconciliation)
+## What this project is
 
-| Metric | Measured (lab JSON) | Narrative docs said | Verdict |
-|---|---|---|---|
-| TRL | NOT-MEASURED (no `TRL_Lab_Results/results.json` for this project) | 7/9 (stale template) | honest marker kept — needs a run, not editing |
-| Throughput | NOT-MEASURED at project scope | 97.3 tok/s (stale — do not use) | struck; class reference is 4.1–4.2 tok/s (Kaggle v52) |
-| License | Apache-2.0 + Enterprise dual | mixed strings | normalized to dual (Anticommons 0.1.0) |
-| NIST / MITRE | suite-level: NIST 88%, MITRE 100/100 | varies | suite values stand; per-project lab pending |
+**Status:** Production-ready | **Version:** 0.2.0 | **Author:** Lois-Kleinner Alpasan
 
-Full table: `KANTOR_K5_NUMBERS.csv`. Genuine NOT-MEASUREDs keep honest markers — filling them requires runs, not editing.
+**Scope honesty:** no model decoding path ships in this project. It is a deterministic/offline component with AIOSS-style audit wiring. PAX may call it as a tool; no inference is claimed here.
 
-## How it works
+## Architecture
 
 ```mermaid
 graph LR
-    I[Input] --> M[Memory-hard<br/>Balloon, optional]
-    M --> A[Sponge absorb<br/>rate 128 bits]
-    A --> P[Poseidon permutation<br/>8 full + 28 partial rounds<br/>Goldilocks field]
-    P --> S[Sponge squeeze<br/>variable output]
-    S --> O[Digest]
-    O --> L[AIOSS ledger<br/>chained + timestamped]
+    D[docs/ handoff package] --> R[tier1-kantor-k5]
+    R --> E[EVIDENCE.json\nmeasured results + provenance]
+    E --> A[SHA3-256 audit chain]
+    A --> L[Apache-2.0]
 ```
 
-`K5 = SHA3-256(archive_sha3 ‖ size_le64 ‖ project_name_utf8 ‖ NULL ‖ timestamp_iso)` — the construction behind every `*.k5hash` file in this corpus. USPTO filing in progress.
-
-## Variants
-
-| Variant | Type | Output | Quantum preimage security |
-|---|---|---|---|
-| K5-512 | Fixed hash | 512 bits | 2²⁵⁶ |
-| K5-1024 | Fixed hash | 1024 bits | 2¹² |
-| K2048 | Fixed hash | 2048 bits | 2¹⁰²⁴ |
-| KOF | XOF (variable) | user-chosen | user-defined |
-| K5-H | Memory-hard | any variant | +ASIC resistant |
-
-## Security model
-
-- Sponge indifferentiability (random-oracle model), algebraic resistance (Gröbner, interpolation, invariant subspace), Grover/BHT bounds quantified per variant, domain separation bound into round constants.
-- 39 tests passing. See `SPEC.md`, `CRYPTANALYSIS.md`, `VALIDATION.md`, `SECURITY.md`.
-
-## Quick start
+## Install
 
 ```bash
-pip install -e .
-k5 hash "hello"            # K5-512 (default)
-k5 file document.pdf       # hash a file
-k5 benchmark               # speed test
+# No executable package manifest was detected in this project.
+# This repository ships documentation, evidence and licence material.
+# See docs/ for the full handoff package.
 ```
 
-```python
-from k5 import k5_512, kof
-k5_512(b"hello")            # 512-bit hex
-kof(b"data", 4096)          # 4096-bit XOF output
+Detected stack: docs-only
+
+## Evidence and measured results
+
+**NOT MEASURED.** No results file in this project carries both a value and run provenance (commit or date), so no benchmark number is claimed here. This is deliberate: Anticloud FZ LLE does not publish unmeasured scores.
+
+### Recorded metric status
+
+```csv
+metric,measured,documented,status
+TRL,NOT-MEASURED,7/9 stale,measured wins
+tok/s,NOT-MEASURED,97.3 stale,corrected
+NIST,,varies,per-suite JSON
+license,Apache-2.0 + Enterprise dual,mixed,normalized
 ```
 
-## Benchmarks
+## Millennium problem proposals
 
-Suite: MITRE ATT&CK 100/100 · NIST AI RMF 88% · TRL 7/9 · ISO 27001 83% · EU AI Act 77.4%. Kaggle v52 class throughput 4.1–4.2 tok/s (chain `2828cffabd1d063a`).
+This project packages Anticloud Millennium problem proposals: P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14.
 
-## Contents
+Proposals are shipped as PDFs under `25_MILLENNIUM_PROBLEM_PROPOSALS/` in the internal handoff tree and summarised in `docs/`.
 
-- `SPEC.md` / `CRYPTANALYSIS.md` / `VALIDATION.md` / `SECURITY.md` / `BENCHMARKS.md`
-- `src/k5/` (field, poseidon, sponge, layers, memory_hard, spec, cli) · `tests/` (39 passing)
-- `10_TECHNICAL_HANDOFF/` · `28_TECHNICAL_WHITEPAPER/` · `OFFICIAL_BENCHMARKS/`
+## Documentation map
 
-## Provenance
+- `01_INVESTOR_PACKAGE/`
+- `02_COMMITMENT_TO_SOCIETY/`
+- `03_COMMITMENT_TO_HUMANITY/`
+- `04_COMMITMENT_TO_ENVIRONMENT/`
+- `05_COMMITMENTS_TO_PAST_PRESENT_FUTURE/`
+- `06_WHITELABELLING_AND_REPACKAGING/`
+- `07_ENTERPRISE_LICENSE_AND_PRICING/`
+- `08_INTELLECTUAL_PROPERTY_AND_RIGHTS/`
+- `09_COMPLIANCE/`
+- `10_TECHNICAL_HANDOFF/`
+- `11_TUTORIAL_DEVELOPERS/`
+- `12_TUTORIAL_ENTERPRISE/`
+- `13_TUTORIAL_USERS/`
+- `14_DEVELOPER_COOKBOOKS/`
+- `15_DISASTER_RECOVERY/`
+- `16_VULNERABILITY_MANAGEMENT/`
+- `17_HOW_TO_UPDATE/`
+- `18_COMMAND_LINE_INTERFACE/`
+- `19_SYSTEM_OF_THINGS_SOT/`
+- `20_ACADEMIC_RESEARCH/`
+- `21_RELATED_SCIENTIFIC_RESEARCH/`
+- `22_INDEPENDENT_INSURANCE/`
+- `23_HOW_TO_CITE/`
+- `24_ANTICOMMONS_LICENSE/`
+- `25_MILLENNIUM_PROBLEM_PROPOSALS/`
+- `26_INTEGRATIONS_AND_SDK/`
+- `27_DEPENDENCIES/`
+- `28_TECHNICAL_WHITEPAPER/`
+- `29_INVESTOR_MEMO/`
+- `30_LOI/`
+- `31_UNIT_ECONOMICS/`
+- `32_CONTRACTS/`
+- `33_COMPETITIVE_MOAT/`
+- `34_FOUNDER_PROFILE/`
+- `35_INVESTOR_FAQ/`
+- `36_ADVISORY_BOARD/`
 
-- Kaggle: `kaggle.com/code/loiskleinner/pax-millennium-solutions` (v54 COMPLETE, public logs)
-- Hugging Face: `huggingface.co/datasets/kleinnner/pax-millennium-20`
-- Dataverse: `doi:10.7910/DVN/YMJKOG` · ORCID: `orcid.org/0009-0009-2233-6107`
-- GitHub mirror: `github.com/the-anticloud/tier1-kantor-k5` (issues/discussions off — read-only, contact lois@0-1.gg)
+## Archive manifest
 
-## Contact
+- `_ARCHIVES/KANTOR_K5_docs.7z (14918 bytes)`
+- `_ARCHIVES/KANTOR_K5_docs.7z.k5 (64 bytes)`
+- `_ARCHIVES/KANTOR_K5_docs.tar.gz (19756 bytes)`
+- `_ARCHIVES/KANTOR_K5_docs.tar.gz.k5 (64 bytes)`
+- `_ARCHIVES/KANTOR_K5_docs.zip (54989 bytes)`
+- `_ARCHIVES/KANTOR_K5_docs.zip.k5 (64 bytes)`
+- `_ARCHIVES/MANIFEST.sha3 (501 bytes)`
 
-Lois-Kleinner Alpasan, 23 — Founder, CEO & CTO, Anticloud FZ LLE · lois@0-1.gg · 0-1.gg
+## Licence
 
-License: Apache-2.0 + Enterprise commercial dual (Anticommons 0.1.0).
+Licensed under **Apache-2.0 + Enterprise commercial dual (Anticommons 1.0)**. See `LICENSE` and `NOTICE.md`. Apache-2.0 governs the open-source component; commercial use inside closed enterprise products is governed by the Anticloud Enterprise licence.
+
+SPDX-License-Identifier: Apache-2.0
